@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"log"
-	"net"
 	"net/http"
 	"strings"
 
@@ -48,12 +47,8 @@ func main() {
 		Handler: grpcHandlerFunc(s, http.DefaultServeMux),
 	}
 
-	lis, err := net.Listen("tcp", srv.Addr)
-	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
-	}
-
-	err = srv.Serve(lis)
+	log.Println("listening and serving on", srv.Addr)
+	err := srv.ListenAndServe()
 	if err != nil {
 		log.Fatalf("serve error: %v", err)
 	}
